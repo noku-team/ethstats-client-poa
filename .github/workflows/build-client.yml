@@ -1,0 +1,8 @@
+name: Build testnet
+on:
+  workflow_dispatch:
+jobs:
+  build-testnet:
+    uses: noku-team/ethstats-client-poa/.github/workflows/build.yml@main
+    with:
+      registry_endpoint: "ghcr.io"
