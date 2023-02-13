@@ -30,32 +30,11 @@
 # pyethapp:latest`
 #
 ## If you now want to deploy a new client version, just redo the second step.
-
-
-FROM debian
-
-RUN apt-get update &&\
-    apt-get install -y curl git-core &&\
-    curl -sL https://deb.nodesource.com/setup | bash - &&\
-    apt-get update &&\
-    apt-get install -y nodejs
-
-RUN apt-get update &&\
-    apt-get install -y build-essential
-
-RUN adduser ethnetintel
-
-RUN cd /home/ethnetintel &&\
-    git clone https://github.com/cubedro/eth-net-intelligence-api &&\
-    cd eth-net-intelligence-api &&\
-    npm install &&\
-    npm install -g pm2
-
-RUN echo '#!/bin/bash\nset -e\n\ncd /home/ethnetintel/eth-net-intelligence-api\n/usr/bin/pm2 start ./app.json\ntail -f \
-    /home/ethnetintel/.pm2/logs/node-app-out-0.log' > /home/ethnetintel/startscript.sh
-
-RUN chmod +x /home/ethnetintel/startscript.sh &&\
-    chown -R ethnetintel. /home/ethnetintel
-
-USER ethnetintel
-ENTRYPOINT ["/home/ethnetintel/startscript.sh"]
+FROM node:8-alpine
+RUN apk --update add --no-cache openssh-client git make gcc g++ python rsync bash
+RUN npm i -g node-gyp
+RUN mkdir -p /srv
+WORKDIR /srv
+COPY . /srv
+RUN npm i
+CMD [ "npm", "run", "start" ]
