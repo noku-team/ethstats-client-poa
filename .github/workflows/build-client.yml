@@ -3,6 +3,6 @@ on:
   workflow_dispatch:
 jobs:
   build-testnet:
-    uses: noku-team/ethstats-client-poa/.github/workflows/build.yml@main
+    uses: noku-team/ethstats-client-poa/.github/workflows/build.yml@master
     with:
       registry_endpoint: "ghcr.io"
