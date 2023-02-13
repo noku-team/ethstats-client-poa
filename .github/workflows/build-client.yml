@@ -1,4 +1,4 @@
-name: Build testnet
+name: Build Client
 on:
   workflow_dispatch:
 jobs:
